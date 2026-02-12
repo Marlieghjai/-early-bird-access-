@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,51 +6,51 @@
 
 @layer base {
   :root {
-    --background: 270 30% 6%;
-    --foreground: 300 20% 95%;
+    --background: 270 28% 8%;
+    --foreground: 300 25% 96%;
 
-    --card: 270 25% 10%;
-    --card-foreground: 300 20% 95%;
+    --card: 270 22% 12%;
+    --card-foreground: 300 25% 96%;
 
-    --popover: 270 25% 10%;
-    --popover-foreground: 300 20% 95%;
+    --popover: 270 22% 12%;
+    --popover-foreground: 300 25% 96%;
 
-    --primary: 320 70% 60%;
+    --primary: 330 80% 68%;
     --primary-foreground: 270 30% 6%;
 
-    --secondary: 270 20% 14%;
-    --secondary-foreground: 300 20% 88%;
+    --secondary: 270 18% 16%;
+    --secondary-foreground: 300 25% 90%;
 
-    --muted: 270 15% 16%;
-    --muted-foreground: 270 10% 55%;
+    --muted: 270 12% 18%;
+    --muted-foreground: 270 12% 60%;
 
-    --accent: 240 60% 65%;
+    --accent: 245 65% 72%;
     --accent-foreground: 270 30% 6%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 270 15% 18%;
-    --input: 270 15% 18%;
-    --ring: 320 70% 60%;
+    --border: 270 15% 20%;
+    --input: 270 15% 20%;
+    --ring: 330 80% 68%;
 
     --radius: 0.75rem;
 
-    --pink-glow: 320 70% 60%;
-    --purple-glow: 280 60% 55%;
-    --blue-glow: 240 60% 65%;
+    --pink-glow: 330 80% 68%;
+    --purple-glow: 285 65% 62%;
+    --blue-glow: 245 65% 72%;
 
-    --sidebar-background: 270 30% 6%;
-    --sidebar-foreground: 300 20% 95%;
-    --sidebar-primary: 320 70% 60%;
+    --sidebar-background: 270 28% 8%;
+    --sidebar-foreground: 300 25% 96%;
+    --sidebar-primary: 330 80% 68%;
     --sidebar-primary-foreground: 270 30% 6%;
-    --sidebar-accent: 270 20% 14%;
-    --sidebar-accent-foreground: 300 20% 95%;
-    --sidebar-border: 270 15% 18%;
-    --sidebar-ring: 320 70% 60%;
+    --sidebar-accent: 270 18% 16%;
+    --sidebar-accent-foreground: 300 25% 96%;
+    --sidebar-border: 270 15% 20%;
+    --sidebar-ring: 330 80% 68%;
 
-    --font-display: 'Playfair Display', serif;
-    --font-body: 'Inter', sans-serif;
+    --font-display: 'Dancing Script', cursive;
+    --font-body: 'Cormorant Garamond', serif;
   }
 }
 
@@ -71,26 +71,42 @@
 
 @layer utilities {
   .text-gradient-enchanted {
-    background: linear-gradient(135deg, hsl(320 70% 60%), hsl(280 60% 55%), hsl(240 60% 65%));
+    background: linear-gradient(135deg, hsl(330 80% 68%), hsl(285 65% 62%), hsl(245 65% 72%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .glow-pink {
-    box-shadow: 0 0 30px -5px hsl(320 70% 60% / 0.4),
-                0 0 60px -10px hsl(280 60% 55% / 0.2);
+    box-shadow: 0 0 30px -5px hsl(330 80% 68% / 0.4),
+                0 0 60px -10px hsl(285 65% 62% / 0.2);
   }
 
   .border-glow {
-    border: 1px solid hsl(320 70% 60% / 0.25);
+    border: 1px solid hsl(330 80% 68% / 0.25);
   }
 
   .bg-gradient-enchanted {
-    background: linear-gradient(135deg, hsl(320 70% 60%), hsl(280 60% 55%), hsl(240 60% 65%));
+    background: linear-gradient(135deg, hsl(330 80% 68%), hsl(285 65% 62%), hsl(245 65% 72%));
   }
 
   .bg-radial-glow {
-    background: radial-gradient(ellipse at center top, hsl(320 70% 60% / 0.1) 0%, hsl(280 60% 55% / 0.05) 30%, transparent 60%);
+    background: radial-gradient(ellipse at center top, hsl(330 80% 68% / 0.12) 0%, hsl(285 65% 62% / 0.06) 30%, transparent 60%);
+  }
+
+  .sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: hsl(330 80% 68%);
+    box-shadow: 0 0 6px 2px hsl(330 80% 68% / 0.6);
+    animation: sparkle-float 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes sparkle-float {
+    0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
+    50% { opacity: 1; transform: translateY(-20px) scale(1); }
   }
 }
