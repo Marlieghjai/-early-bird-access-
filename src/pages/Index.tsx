@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { Gift, Sparkles, Star, Mail, ArrowRight, CheckCircle2 } from "lucide-react";
+import nailsBg from "@/assets/nails-bg.jpg";
 
 const gifts = [
   {
     icon: Gift,
-    title: "Exclusive Starter Kit",
-    description: "A curated collection of premium resources to get you started on day one.",
+    title: "Exclusive Nail Kit",
+    description: "A curated set of premium press-on nails and tools delivered to your door.",
   },
   {
     icon: Sparkles,
     title: "VIP Early Access",
-    description: "Be the first to explore every feature before anyone else.",
+    description: "Shop new collections before anyone else and get first picks on limited drops.",
   },
   {
     icon: Star,
-    title: "Founding Member Badge",
-    description: "A permanent badge marking you as one of our original supporters.",
+    title: "Founding Member Perks",
+    description: "Permanent discounts and a special badge as one of our original supporters.",
   },
 ];
 
@@ -33,24 +34,35 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Background glow */}
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <img
+          src={nailsBg}
+          alt="Nail art background"
+          className="w-full h-full object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
+      </div>
+
+      {/* Radial glow overlay */}
       <div className="absolute inset-0 bg-radial-glow pointer-events-none" />
 
       {/* Hero */}
       <section className="relative flex flex-col items-center justify-center min-h-[70vh] px-6 pt-20 pb-10 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-glow bg-secondary mb-8 animate-pulse-gold">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-glow bg-secondary mb-8">
           <Sparkles className="w-4 h-4 text-primary" />
-          <span className="text-sm font-medium text-primary">Something amazing is coming</span>
+          <span className="text-sm font-medium text-primary">Coming Soon</span>
         </div>
 
-        <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-6 max-w-3xl leading-[1.1]">
-          Be the <span className="text-gradient-gold">First</span> to
-          <br />
-          Experience It
+        <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-3 max-w-4xl leading-[1.1]">
+          <span className="text-gradient-enchanted">Uniquely</span>
+        </h1>
+        <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-6 max-w-4xl leading-[1.1]">
+          <span className="text-gradient-enchanted">Enchanted</span>
         </h1>
 
         <p className="text-muted-foreground text-lg sm:text-xl max-w-xl mb-12 font-light leading-relaxed">
-          Sign up before we launch and unlock exclusive free gifts reserved only for our earliest supporters.
+          Sign up before we launch and unlock exclusive free gifts reserved only for our earliest supporters. ✨
         </p>
 
         {/* Signup form */}
@@ -70,7 +82,7 @@ const Index = () => {
               </div>
               <button
                 type="submit"
-                className="px-6 py-4 rounded-lg bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all glow-gold flex items-center gap-2 shrink-0"
+                className="px-6 py-4 rounded-lg bg-gradient-enchanted text-primary-foreground font-semibold hover:opacity-90 transition-all glow-pink flex items-center gap-2 shrink-0"
               >
                 Join
                 <ArrowRight className="w-4 h-4" />
@@ -81,7 +93,7 @@ const Index = () => {
             </p>
           </form>
         ) : (
-          <div className="flex items-center gap-3 px-6 py-4 rounded-lg border-glow bg-secondary animate-float">
+          <div className="flex items-center gap-3 px-6 py-4 rounded-lg border-glow bg-secondary">
             <CheckCircle2 className="w-6 h-6 text-primary" />
             <span className="text-foreground font-medium">You're in! Check your inbox for a confirmation.</span>
           </div>
@@ -92,7 +104,7 @@ const Index = () => {
       <section className="relative px-6 py-20 max-w-5xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4">
-            Your Free <span className="text-gradient-gold">Gifts</span>
+            Your Free <span className="text-gradient-enchanted">Gifts</span>
           </h2>
           <p className="text-muted-foreground max-w-md mx-auto">
             Here's what you'll receive just for signing up early.
@@ -103,7 +115,7 @@ const Index = () => {
           {gifts.map((gift, i) => (
             <div
               key={i}
-              className="group p-8 rounded-xl bg-card border-glow hover:glow-gold transition-all duration-500 cursor-default"
+              className="group p-8 rounded-xl bg-card border-glow hover:glow-pink transition-all duration-500 cursor-default"
             >
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
                 <gift.icon className="w-6 h-6 text-primary" />
@@ -120,9 +132,9 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="text-center py-10 border-t border-border">
+      <footer className="relative text-center py-10 border-t border-border">
         <p className="text-muted-foreground text-sm">
-          © {new Date().getFullYear()} · Launching Soon
+          © {new Date().getFullYear()} Uniquely Enchanted · Launching Soon
         </p>
       </footer>
     </div>
