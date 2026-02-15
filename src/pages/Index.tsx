@@ -58,34 +58,22 @@ const Index = () => {
 
     setLoading(true);
     try {
-      const body: {
+      const body = {
         data: {
-          type: "subscription";
+          type: "subscription" as const,
           attributes: {
-            custom_source?: string;
             profile: {
               data: {
-                type: "profile";
-                attributes: { email: string };
-              };
-            };
-          };
-          relationships?: {
-            list: { data: { type: "list"; id: string } };
-          };
-        };
-      } = {
-        data: {
-          type: "subscription",
-          attributes: {
-            custom_source: "Early bird signup",
-            profile: {
-              data: {
-                type: "profile",
+                type: "profile" as const,
                 attributes: { email: trimmed },
               },
             },
           },
+          ...(KLAVIYO_LIST_ID && {
+            relationships: {
+              list: { data: { type: "list" as const, id: KLAVIYO_LIST_ID } },
+            },
+          }),
         },
       };
       if (KLAVIYO_LIST_ID) {
