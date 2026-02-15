@@ -60,6 +60,15 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Klaviyo email signup
+
+The early-bird signup form sends emails to Klaviyo via the Client Subscription API. Optional env vars (see `.env.example`):
+
+- **`VITE_KLAVIYO_COMPANY_ID`** – Your public API key / Site ID (defaults to the value in `index.html` if unset).
+- **`VITE_KLAVIYO_LIST_ID`** – List ID from Klaviyo (Audience → Lists). If unset, Klaviyo uses the account default opt-in list.
+
+Create or select a list in Klaviyo, copy its list ID, and set `VITE_KLAVIYO_LIST_ID` in `.env` to send signups to that list.
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.

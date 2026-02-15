@@ -1,6 +1,11 @@
 import { useState } from "react";
-import { Gift, Sparkles, Star, Mail, ArrowRight, CheckCircle2, Instagram } from "lucide-react";
+import { Gift, Sparkles, Star, Mail, ArrowRight, CheckCircle2, Instagram, Loader2 } from "lucide-react";
 import nailsBg from "@/assets/nails-bg.jpg";
+import { useToast } from "@/hooks/use-toast";
+
+const KLAVIYO_API_REVISION = "2024-07-15";
+const KLAVIYO_COMPANY_ID = import.meta.env.VITE_KLAVIYO_COMPANY_ID ?? "Wb4tTL";
+const KLAVIYO_LIST_ID = import.meta.env.VITE_KLAVIYO_LIST_ID;
 
 const gifts = [
   {
@@ -43,12 +48,93 @@ const sparklePositions = [
 const Index = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
-      setSubmitted(true);
-      setEmail("");
+    const trimmed = email.trim();
+    if (!trimmed || loading) return;
+
+    setLoading(true);
+    try {
+      const body: {
+        data: {
+          type: "subscription";
+          attributes: {
+            profile: {
+              data: {
+                type: "profile";
+                attributes: { email: string; custom_source?: string };
+              };
+            };
+          };
+          relationships?: {
+            list: { data: { type: "list"; id: string } };
+          };
+        };
+      } = {
+        data: {
+          type: "subscription",
+          attributes: {
+            profile: {
+              data: {
+                type: "profile",
+                attributes: {
+                  email: trimmed,
+                  custom_source: "Early bird signup",
+                },
+              },
+            },
+          },
+        },
+      };
+      if (KLAVIYO_LIST_ID) {
+        body.data.relationships = {
+          list: { data: { type: "list", id: KLAVIYO_LIST_ID } },
+        };
+      }
+
+      const res = await fetch(
+        `https://a.klaviyo.com/client/subscriptions/?company_id=${KLAVIYO_COMPANY_ID}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Revision": KLAVIYO_API_REVISION,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      if (res.status === 202) {
+        setSubmitted(true);
+        setEmail("");
+        if (typeof window !== "undefined" && window.klaviyo?.push) {
+          window.klaviyo.push([
+            "track",
+            "Joined Waitlist",
+            { email: trimmed, $source: "Early bird signup" },
+          ]);
+        }
+      } else {
+        const text = await res.text();
+        toast({
+          variant: "destructive",
+          title: "Something went wrong",
+          description: "We couldn't add you right now. Please try again later.",
+        });
+        console.error("Klaviyo subscription error", res.status, text);
+      }
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: "Please check your connection and try again.",
+      });
+      console.error("Klaviyo subscription error", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,15 +199,26 @@ const Index = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full pl-12 pr-4 py-4 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all font-body"
+                  disabled={loading}
+                  className="w-full pl-12 pr-4 py-4 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all font-body disabled:opacity-70"
                 />
               </div>
               <button
                 type="submit"
-                className="px-6 py-4 rounded-lg bg-gradient-enchanted text-primary-foreground font-semibold hover:opacity-90 transition-all glow-pink flex items-center gap-2 shrink-0 font-body"
+                disabled={loading}
+                className="px-6 py-4 rounded-lg bg-gradient-enchanted text-primary-foreground font-semibold hover:opacity-90 transition-all glow-pink flex items-center gap-2 shrink-0 font-body disabled:opacity-70 disabled:pointer-events-none"
               >
-                Join
-                <ArrowRight className="w-4 h-4" />
+                {loading ? (
+                  <>
+                    Joining…
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Join
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </button>
             </div>
             <p className="text-muted-foreground text-xs mt-3 font-body">
