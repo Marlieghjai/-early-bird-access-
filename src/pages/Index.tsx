@@ -62,10 +62,11 @@ const Index = () => {
         data: {
           type: "subscription";
           attributes: {
+            custom_source?: string;
             profile: {
               data: {
                 type: "profile";
-                attributes: { email: string; custom_source?: string };
+                attributes: { email: string };
               };
             };
           };
@@ -77,13 +78,11 @@ const Index = () => {
         data: {
           type: "subscription",
           attributes: {
+            custom_source: "Early bird signup",
             profile: {
               data: {
                 type: "profile",
-                attributes: {
-                  email: trimmed,
-                  custom_source: "Early bird signup",
-                },
+                attributes: { email: trimmed },
               },
             },
           },
